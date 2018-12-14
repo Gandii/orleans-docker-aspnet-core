@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  dev:
+    external:
+      name: dev
+
+services:
+    db:
+        image: "microsoft/mssql-server-linux"
+        ports:
+          - "5001:1433"
+        environment:
+            SA_PASSWORD: "Your_password123"
+            ACCEPT_EULA: "Y"
+        networks:
+          - dev

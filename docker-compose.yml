@@ -1,0 +1,28 @@
+version: '3'
+
+networks:
+  dev:
+    external:
+      name: dev
+
+services:
+  api:
+    image: api
+    environment:
+      - ConnectionStrings__default=Server=db;Database=orleanstest;User Id=sa;Password=Your_password123;
+    ports:
+      - "5000:80"
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    networks:
+          - dev
+  silo:
+    image: silo
+    environment:
+      - ConnectionStrings__default=Server=db;Database=orleanstest;User Id=sa;Password=Your_password123;
+    build:
+      context: .
+      dockerfile: Silo/Dockerfile
+    networks:
+          - dev
