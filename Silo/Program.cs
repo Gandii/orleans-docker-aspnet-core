@@ -14,6 +14,9 @@ using Microsoft.Extensions.Configuration.Json;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Data.Contexts;
 
 namespace Silo
 {
@@ -25,6 +28,7 @@ namespace Silo
         static void Main(string[] args)
         {
 
+            // Build configurations.
             var configBuilder = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -49,9 +53,21 @@ namespace Silo
                     options.ConnectionString = connectionString;
                     options.Invariant = "System.Data.SqlClient";
                 })
+                /*   .AddAdoNetGrainStorage("Default", options =>
+                   {
+                       options.Invariant = "System.Data.SqlClient";
+                       options.ConnectionString = connectionString;
+                       options.UseJsonFormat = true;
+                   })*/
+                .ConfigureServices(services =>
+                {
+                    services.AddDbContext<AppDbContext>(options =>
+                     options.UseSqlServer(connectionString));
+                })
                 .ConfigureEndpoints(siloPort: 11111, gatewayPort: 30000)
-                    .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = ip)
-                .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(ValueGrain).Assembly).WithReferences())
+                .Configure<EndpointOptions>(options => options.AdvertisedIPAddress = ip)
+                //.ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(ValueGrain).Assembly).WithReferences())
+                .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(EFValueGrain).Assembly).WithReferences())
                 .ConfigureLogging(builder => builder.SetMinimumLevel(LogLevel.Information).AddConsole())
                 .Build();
 

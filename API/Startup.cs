@@ -47,7 +47,6 @@ namespace API
         {
 
             var log = serviceProvider.GetService<ILogger<Startup>>();
-
             // TODO replace with your connection string
             string connectionString = Configuration.GetConnectionString("default");
             var client = new ClientBuilder()
@@ -62,7 +61,6 @@ namespace API
                     options.ConnectionString = connectionString;
                     options.Invariant = "System.Data.SqlClient";
                 })
-                //  .UseAzureStorageClustering(options => options.ConnectionString = connectionString)
                 .Build();
 
             client.Connect(RetryFilter).GetAwaiter().GetResult();

@@ -20,6 +20,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
    <PackageReference Include=" Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
+     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
 
   <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
@@ -27,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GrainInterfaces\GrainInterfaces.csproj" />
     <ProjectReference Include="..\Grains\Grains.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
 </Project>

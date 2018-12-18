@@ -1,23 +1,33 @@
-﻿using GrainInterfaces;
+﻿/*
+using GrainInterfaces;
 using Orleans;
+using Orleans.Providers;
 using System;
 using System.Threading.Tasks;
 
 namespace Grains
 {
-    public class ValueGrain : Grain, IValueGrain
+    [StorageProvider(ProviderName = "Default")]
+    public class ValueGrain : Grain<ValueGrainState>, IValueGrain
     {
-        private string value = "none";
 
         public Task<string> GetValue()
         {
-            return Task.FromResult(this.value);
+            return Task.FromResult(this.State.value);
         }
 
         public Task SetValue(string value)
         {
-            this.value = value;
-            return Task.CompletedTask;
+            this.State.value = value;
+
+            return base.WriteStateAsync();
         }
     }
+
+    public class ValueGrainState
+    {
+        public string value { get; set; }
+
+    }
 }
+*/
